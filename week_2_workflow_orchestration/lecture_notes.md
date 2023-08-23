@@ -63,3 +63,18 @@
 * Can see deployments in the prefect UI. Can change the parameters inside here.
 * Can choose when you want it to run by sending a deployment to a work queue. An agent looks at the work queues and sees what needs to be ran. Trigger the agent in your CLI to make the work queues (and therefore deployments) run.
 * You can create notifications if a specific run state (e.g. crashed, failed) happens - such as teams/slack webhooks.
+
+## 2.2.6 - Schedules & Docker Storage with Infrastructure
+* Can schedule flows on Orion UI, by clicking on the Deployments section and setting the schedule
+* Can schedule from the terminal too, through when doing a deployment. `prefect deployment build --help` for the full list of options
+* Can also do this after making a deployment.
+* Just need an agent running to pick up the flows.
+* Can bake the flows right into a docker image.
+* In order to do this, firtly need a Dockerfile. This requires 3 things:
+  * For the base image can use prefect images that exist and choose a version of Python.
+  * Requirements (use the requirements.txt but take out the prefect packages because they are already installed on the image)
+  * Copy the Python code
+* Can now build and publish the image (need to be logged in to Dockerhub)
+* Then need to create a docker block on Orion UI (specify the image that you want when creating this block)
+* Can then create a docker deploy Python file locally, where we use this docker block and run it
+* Want to be using an API at a specific endpoint which can be done with `prefect config set`.
